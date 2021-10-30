@@ -31,8 +31,8 @@ class PixivHandler(FuncInterface):
 
     @FuncInterface.is_disable
     def verify(self, data: Message):
-        for item in ['涩涩']:
-            if item in data.text:
+        for item in ['涩涩', '涩图', 'hso']:
+            if item in data.text and data.text.count('不') % 2 == 0:
                 return 10
 
     @FuncInterface.is_used
