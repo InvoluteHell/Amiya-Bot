@@ -2,6 +2,7 @@ from typing import List
 
 from core import Message
 from handlers.constraint import FuncInterface, sorted_candidate
+from .pixiv import Pixiv
 
 from .user.intellectAlarm import IntellectAlarm
 from .user.userInfo import UserInfo
@@ -16,16 +17,18 @@ from .manager import manager_handler
 from .user.emotion import emotion
 from .user.greeting import greeting
 
+from .pixiv import PixivHandler
 
 class FunctionIndexes:
     def __init__(self, bot):
         self.arknights = Arknights(bot)
+        self.pixiv= Pixiv(bot)
         self.functions = [
             Menu(),
             Weibo(),
             Replace(bot),
             UserInfo(),
-            IntellectAlarm()
+            IntellectAlarm(),
         ]
         self.actions = [
             emotion,

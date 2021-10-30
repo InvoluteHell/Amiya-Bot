@@ -29,6 +29,11 @@ class Handlers(FunctionIndexes):
             if func_result:
                 return func_result
 
+            #pixiv
+            func_result = self.find_functions_results(data, self.pixiv.funcs)
+            if func_result:
+                return func_result
+
             for action in self.actions:
                 result = action(data)
                 if result:
