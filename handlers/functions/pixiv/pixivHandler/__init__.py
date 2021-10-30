@@ -38,5 +38,6 @@ class PixivHandler(FuncInterface):
     @FuncInterface.is_used
     def action(self, data: Message):
         reply = Chain(data)
-        pic = self.keeper.random()
-        return reply.text('https://www.pixiv.net/artworks/{}'.format(pic['id'])).image(url(pic))
+        p = self.keeper.random()
+        path = pic(url(p))
+        return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
