@@ -29,7 +29,7 @@ class Handlers(FunctionIndexes):
             if func_result:
                 return func_result
 
-            #pixiv
+            #mole
             func_result = self.find_functions_results(data, self.pixiv.funcs)
             if func_result:
                 return func_result
