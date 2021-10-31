@@ -47,4 +47,4 @@ class PixivHandler(FuncInterface):
             path = pic(url(p))
             return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
         else:
-            return reply.text('博士不可以涩涩！真是太过分了！哼~ >.<')
+            return reply.image("banhso.gif")
