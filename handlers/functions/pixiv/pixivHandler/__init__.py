@@ -4,6 +4,7 @@ from core.database.models import Message
 from core.resolver.messageChain import Chain
 from dataSource import DataSource
 from handlers.constraint import FuncInterface
+from core.database.models import GroupActive
 from .pixivel import *
 
 class keeper:
@@ -32,12 +33,18 @@ class PixivHandler(FuncInterface):
     @FuncInterface.is_disable
     def verify(self, data: Message):
         for item in ['涩涩', '涩图', 'hso']:
-            if item in data.text and data.text.count('不') % 2 == 0:
+            if '不' in data.text or '可以' in data.text:
+                continue
+            if item in data.text:
                 return 10
 
     @FuncInterface.is_used
     def action(self, data: Message):
         reply = Chain(data)
-        p = self.keeper.random()
-        path = pic(url(p))
-        return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
+        group: GroupActive = GroupActive.get_or_none(group_id=data.group_id)
+        if group and group.hso == 1:
+            p = self.keeper.random()
+            path = pic(url(p))
+            return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
+        else:
+            return reply.text('博士不可以涩涩！真是太过分了！哼~ >.<')
