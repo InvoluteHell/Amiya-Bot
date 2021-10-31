@@ -40,6 +40,6 @@ def manager_handler(data: Message):
             if data.group_active.hso == 0:
                 GroupActive.update(hso=1).where(
                     GroupActive.group_id == data.group_id).execute()
-                return reply.text('涩涩上班啦！博士真是太过分了！哼~ >.<')
+                return reply.text('涩涩上班啦！充足的休息才能更好的工作，博士，不要忘记休息哦 ^_^')
 
     return data.group_active.active == 1
