@@ -32,9 +32,9 @@ class PixivHandler(FuncInterface):
 
     @FuncInterface.is_disable
     def verify(self, data: Message):
+        if '不' in data.text or '可以' in data.text:
+            return False
         for item in ['涩涩', '涩图', 'hso']:
-            if '不' in data.text or '可以' in data.text:
-                continue
             if item in data.text:
                 return 10
 
