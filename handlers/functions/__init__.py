@@ -2,7 +2,7 @@ from typing import List
 
 from core import Message
 from handlers.constraint import FuncInterface, sorted_candidate
-from .pixiv import Pixiv
+from handlers.functions.mole.pixiv import Pixiv
 
 from .user.intellectAlarm import IntellectAlarm
 from .user.userInfo import UserInfo
@@ -17,7 +17,7 @@ from .manager import manager_handler
 from .user.emotion import emotion
 from .user.greeting import greeting
 
-from .pixiv import PixivHandler
+from handlers.functions.mole.pixiv import PixivHandler
 
 class FunctionIndexes:
     def __init__(self, bot):

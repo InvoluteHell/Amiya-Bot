@@ -15,6 +15,7 @@ from handlers.functions.weibo import Weibo
 weibo = Weibo()
 
 
+
 class AutomaticEvents:
     def __init__(self, bot: AmiyaBot):
         self.bot = bot

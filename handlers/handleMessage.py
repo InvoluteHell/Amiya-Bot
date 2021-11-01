@@ -26,13 +26,11 @@ class Handlers(FunctionIndexes):
 
         if data.is_call:
             func_result = self.find_functions_results(data, self.arknights.funcs)
-            if func_result:
-                return func_result
+            if func_result:return func_result
 
             #mole
             func_result = self.find_functions_results(data, self.pixiv.funcs)
-            if func_result:
-                return func_result
+            if func_result:return func_result
 
             for action in self.actions:
                 result = action(data)
