@@ -20,7 +20,7 @@ def greeting(data: Message):
             return Chain(data).text(status['text'])
 
     if '玛丽涩涩' in message:
-        return Chain(data).image('banhso2.jpeg')
+        return Chain(data).image('images/banhso2.jpeg')
 
     if '晚安' in message:
         return Chain(data).text(f'Dr.{nickname}，晚安～')
