@@ -11,6 +11,7 @@ groups=[672372860]
 class biliTask:
     def __init__(self,bot:AmiyaBot):
         self.bot=bot
+        self.run()
 
     last:bool=False
     def time(self):
