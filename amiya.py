@@ -3,6 +3,7 @@ from core.util import log
 from core.util.common import TimeRecorder
 
 from console.server.app import Console
+from handlers.functions.mole.bili.biliTask import biliTask
 from handlers.handleEvents import EventHandlers
 from handlers.handleMessage import Handlers
 from handlers.automaticEvents import AutomaticEvents
@@ -18,6 +19,8 @@ class Main(AmiyaBot):
         self.eventsHandlers = EventHandlers(self)
         self.handlers = Handlers(self)
         self.console = Console(self)
+
+        biliTask(self) # live room task
 
         log.info(f'AmiyaBot ready to connect, starting used {tr.rec()} sec.')
 
