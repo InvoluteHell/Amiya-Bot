@@ -44,5 +44,5 @@ class Main(AmiyaBot):
 if __name__ == '__main__':
     amiya = Main()
     amiya.client_start()
-    amiya.console.start()
     amiya.bili.start()
+    #amiya.console.start()
