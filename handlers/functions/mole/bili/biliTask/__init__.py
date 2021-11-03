@@ -7,12 +7,11 @@ from .api import *
 from ...tools import pic
 
 mid=4506341
-groups=[672372860]
+groups=[672372860, 716692626]
 
 class biliTask:
     def __init__(self,bot:AmiyaBot):
         self.bot=bot
-        self.run()
 
     def start(self):
         threading.Thread(target=self.run).start()
