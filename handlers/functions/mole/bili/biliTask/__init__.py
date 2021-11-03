@@ -21,7 +21,6 @@ class biliTask:
     def time(self):
         user=api.user(mid)
         now =user.room.liveStatus is 1
-        print(now)
         if now and not self.last:
             for group in groups:
                 with self.bot.send_custom_message(group_id=group) as reply:
