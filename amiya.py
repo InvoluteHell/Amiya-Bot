@@ -20,7 +20,7 @@ class Main(AmiyaBot):
         self.handlers = Handlers(self)
         self.console = Console(self)
 
-        biliTask(self) # live room task
+        self.bili = biliTask(self) # live room task
 
         log.info(f'AmiyaBot ready to connect, starting used {tr.rec()} sec.')
 
@@ -45,3 +45,4 @@ if __name__ == '__main__':
     amiya = Main()
     amiya.client_start()
     amiya.console.start()
+    amiya.bili.start()
