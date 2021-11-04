@@ -16,7 +16,7 @@ class biliTask:
     def start(self):
         threading.Thread(target=self.run).start()
 
-    last:bool=api.user(mid).user.room.liveStatus is 1
+    last:bool=api.user(mid).room.liveStatus is 1
     def time(self):
         user=api.user(mid)
         now =user.room.liveStatus is 1
