@@ -139,3 +139,18 @@ class ReplaceText(BaseModel):
     in_time = BigIntegerField()
     is_global = IntegerField(default=0)
     is_active = IntegerField(default=1)
+
+class MsgRecord(BaseModel):
+    id = IntegerField(primary_key=True, constraints=[SQL('autoincrement')])
+    group_id = IntegerField()
+    user_id = IntegerField()
+    msg = TextField()
+    time = BigIntegerField(default=0)
+
+class ReplyRecord(BaseModel):
+    id = IntegerField(primary_key=True, constraints=[SQL('autoincrement')])
+    group_id = IntegerField()
+    user_id = IntegerField()
+    pre_msg = TextField()
+    reply_msg = TextField()
+    count = IntegerField(default=0)

@@ -15,6 +15,7 @@ from .touch import random_reply
 from .manager import manager_handler
 from .user.emotion import emotion
 from .user.greeting import greeting
+from .user.autoreply import autoreply
 
 
 class FunctionIndexes:
