@@ -55,6 +55,8 @@ def record(data: Message):
 def update_reply_record(chain, msg_list: list, enable_repeat = False):
     if msg_list:
         msg = msg_list[0]
+        if time.time() - msg.time > 600:   # 十分钟之前的了，忽略掉
+            return
         if msg.msg == chain:    # 说明是在复读
             if enable_repeat:
                 pass

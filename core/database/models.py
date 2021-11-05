@@ -153,3 +153,8 @@ class ReplyRecord(BaseModel):
     pre_msg = TextField()
     reply_msg = TextField()
     count = IntegerField(default=1)
+
+class AutoReplyTime(BaseModel):
+    group_id = IntegerField(primary_key=True)
+    time = BigIntegerField(default=0)
+    

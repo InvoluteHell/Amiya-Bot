@@ -6,6 +6,7 @@ from console.server.app import Console
 from handlers.handleEvents import EventHandlers
 from handlers.handleMessage import Handlers
 from handlers.automaticEvents import AutomaticEvents
+from handlers.functions.user.activereply import ActiveReply
 
 
 class Main(AmiyaBot):
@@ -18,6 +19,7 @@ class Main(AmiyaBot):
         self.eventsHandlers = EventHandlers(self)
         self.handlers = Handlers(self)
         self.console = Console(self)
+        self.activereply = ActiveReply(self)
 
         log.info(f'AmiyaBot ready to connect, starting used {tr.rec()} sec.')
 
@@ -41,4 +43,5 @@ class Main(AmiyaBot):
 if __name__ == '__main__':
     amiya = Main()
     amiya.client_start()
+    amiya.activereply.start()
     amiya.console.start()
