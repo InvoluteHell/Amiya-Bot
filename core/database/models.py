@@ -152,3 +152,17 @@ class DriftBottle(BaseModel):
     get_user_id = IntegerField(default=0)
     get_group_id = IntegerField(default=0)
     get_time = BigIntegerField(default=0)
+
+class MsgRecord(BaseModel):
+    id = IntegerField(primary_key=True, constraints=[SQL('autoincrement')])
+    group_id = IntegerField()
+    user_id = IntegerField()
+    msg = TextField()
+    time = BigIntegerField(default=0)
+
+class ReplyRecord(BaseModel):
+    id = IntegerField(primary_key=True, constraints=[SQL('autoincrement')])
+    group_id = IntegerField()
+    pre_msg = TextField()
+    reply_msg = TextField()
+    count = IntegerField(default=1)

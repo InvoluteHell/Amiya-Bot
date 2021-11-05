@@ -5,8 +5,10 @@ from core import AmiyaBot, Message, Chain
 from core.config import config
 from core.util.common import random_code, word_in_sentence
 from core.database.models import User, Admin, Message as MessageBase
+from core.database.models import MsgRecord
 
-from handlers.functions import FunctionIndexes, manager_handler, random_reply, greeting
+from handlers.functions import FunctionIndexes, manager_handler, random_reply, greeting, autoreply
+from handlers.functions.user.autoreply import record
 from handlers.handleWaiting import waiting_event
 from handlers.automaticEvents import bot_maintain
 
@@ -37,7 +39,11 @@ class Handlers(FunctionIndexes):
                 if result:
                     return result
 
-        return greeting(data)
+        ret = greeting(data)
+        if ret:
+            return ret
+        
+        return autoreply(data, self.bot) or record(data)
 
     @waiting_event
     def reply_private_message(self, data: Message):

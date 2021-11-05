@@ -126,6 +126,12 @@ class Message:
                 if chain['type'] == 'Image':
                     self.image = chain['url'].strip()
 
+            raw_chain = message_chain[1:]
+            for chain in raw_chain:
+                if chain['type'] == 'Image':
+                    del chain['url']
+            self.raw_chain = raw_chain
+
         self.text_origin = text
 
         replace: List[ReplaceText] = ReplaceText.select() \

@@ -25,7 +25,9 @@ class DataBase:
             PoolSpOperator,
             GachaConfig,
             Intellect,
-            ReplaceText
+            ReplaceText,
+            MsgRecord,
+            ReplyRecord
         )
         for item in tables:
             item.create_table()
