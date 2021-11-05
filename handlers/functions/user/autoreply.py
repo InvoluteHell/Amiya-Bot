@@ -6,7 +6,7 @@ import time
 import random
 import json
 
-reply_count_threshold = 3
+reply_count_threshold = 2
 
 @FuncInterface.is_disable_func(function_id='autoreply')
 def autoreply(data: Message, bot: AmiyaBot):
@@ -16,7 +16,7 @@ def autoreply(data: Message, bot: AmiyaBot):
         ReplyRecord.group_id==data.group_id,
         ReplyRecord.pre_msg==chain,
         ReplyRecord.count >= reply_count_threshold
-    ).order_by(ReplyRecord.count.desc()).limit(3)
+    ).order_by(ReplyRecord.count.desc()).limit(5)
 
     if reply_list:
         rand_index = random.randint(0, len(reply_list) - 1)
@@ -34,7 +34,7 @@ def record(data: Message):
         ).limit(1)
     if msg_list:
         msg = msg_list[0]
-        if msg.msg == data.message:
+        if msg.msg == chain:
             pass    # 说明是在复读
         else:
             print('latest message: %s' % msg.msg, 'cur message : %s' % chain)
