@@ -2,6 +2,7 @@ import threading
 import time
 import random
 import json
+import datetime
 
 from core import AmiyaBot
 from core.resolver.messageChain import Chain
@@ -19,7 +20,7 @@ class ActiveReply:
         groups = GroupActive.select().where(GroupActive.active == 1)
 
         for group in groups:
-            min = random.randint(30, 60)
+            min = random.randint(10, 20)
             time.sleep(min * 60)
 
             group_id = group.group_id
@@ -52,8 +53,8 @@ class ActiveReply:
             if auto_reply_time and auto_reply_time > msg_time:
                 continue
             
-            time_interval: int = (time.time() - msg_time) / 3600  # 上一次有人说话到现在的时间间隔，单位小时
-            rand_hour = random.randint(0, 12)   # 时间间隔越大，触发主动对话概率越高，12小时以上就必触发
+            time_interval: int = (time.time() - msg_time) / 60  # 上一次有人说话到现在的时间间隔，单位分钟
+            rand_hour = random.randint(0, 180)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
 
             if rand_hour < time_interval:
                 print('ready to active reply')
@@ -75,6 +76,9 @@ class ActiveReply:
 
     def run(self):
         while True:
+            hour = datetime.datetime.now().hour
+            if hour > 1 and hour < 10:
+                time.sleep(3600)
             self.time()
             min = random.randint(30, 60)
             time.sleep(min * 60)
