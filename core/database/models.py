@@ -150,7 +150,6 @@ class MsgRecord(BaseModel):
 class ReplyRecord(BaseModel):
     id = IntegerField(primary_key=True, constraints=[SQL('autoincrement')])
     group_id = IntegerField()
-    user_id = IntegerField()
     pre_msg = TextField()
     reply_msg = TextField()
     count = IntegerField(default=1)

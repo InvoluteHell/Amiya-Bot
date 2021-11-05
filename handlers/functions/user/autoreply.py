@@ -11,7 +11,6 @@ reply_count_threshold = 3
 def autoreply(data: Message, bot: AmiyaBot):
     reply_list = ReplyRecord.select().where(
         ReplyRecord.group_id==data.group_id,
-        ReplyRecord.user_id==data.user_id,
         ReplyRecord.pre_msg==data.text_origin,
         ReplyRecord.count >= reply_count_threshold
     ).order_by(ReplyRecord.count.desc()).limit(3)
@@ -24,32 +23,33 @@ def autoreply(data: Message, bot: AmiyaBot):
 
 def record(data: Message):
     msg_list = MsgRecord.select().where(
-        MsgRecord.group_id==data.group_id,
-        MsgRecord.user_id==data.user_id).order_by(
+        MsgRecord.group_id==data.group_id
+        ).order_by(
             MsgRecord.time.desc()
         ).limit(1)
     if msg_list:
         msg = msg_list[0]
-        print('latest message: %s' % msg.msg, 'cur message : %s' % data.text_origin)
-        reply_list = ReplyRecord.select().where(
-            ReplyRecord.group_id==msg.group_id,
-            ReplyRecord.user_id==msg.user_id,
-            ReplyRecord.pre_msg==msg.msg,
-            ReplyRecord.reply_msg==data.text_origin
-        ).limit(1)
-        if reply_list:
-            reply = reply_list[0]
-            new_cout = reply.count+1
-            print('update count', new_cout)
-            ReplyRecord.update(count=new_cout).where(ReplyRecord.id==reply.id).execute()
+        if msg.msg == data.text_origin:
+            pass    # 说明是在复读
         else:
-            print('insert')
-            ReplyRecord.insert(
-                group_id=msg.group_id,
-                user_id=msg.user_id,
-                pre_msg=msg.msg,
-                reply_msg=data.text_origin
-            ).execute()
+            print('latest message: %s' % msg.msg, 'cur message : %s' % data.text_origin)
+            reply_list = ReplyRecord.select().where(
+                ReplyRecord.group_id==msg.group_id,
+                ReplyRecord.pre_msg==msg.msg,
+                ReplyRecord.reply_msg==data.text_origin
+            ).limit(1)
+            if reply_list:
+                reply = reply_list[0]
+                new_cout = reply.count+1
+                print('update count', new_cout)
+                ReplyRecord.update(count=new_cout).where(ReplyRecord.id==reply.id).execute()
+            else:
+                print('insert')
+                ReplyRecord.insert(
+                    group_id=msg.group_id,
+                    pre_msg=msg.msg,
+                    reply_msg=data.text_origin
+                ).execute()
 
     MsgRecord.insert(
         group_id=data.group_id, 
