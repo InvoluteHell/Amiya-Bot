@@ -36,8 +36,9 @@ class Handlers(FunctionIndexes):
                 if result:
                     return result
 
-        if greeting(data):
-            return
+        ret = greeting(data)
+        if ret:
+            return ret
         
         return autoreply(data, self.bot) or record(data)
 
