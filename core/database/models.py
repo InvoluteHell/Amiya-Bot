@@ -153,4 +153,4 @@ class ReplyRecord(BaseModel):
     user_id = IntegerField()
     pre_msg = TextField()
     reply_msg = TextField()
-    count = IntegerField(default=0)
+    count = IntegerField(default=1)
