@@ -27,34 +27,23 @@ def autoreply(data: Message, bot: AmiyaBot):
 def record(data: Message):
     chain = json.dumps(data.raw_chain)
 
+    # 上一条不是这个人的
     msg_list = MsgRecord.select().where(
-        MsgRecord.group_id==data.group_id
+        MsgRecord.group_id==data.group_id,
+        MsgRecord.user_id!=data.user_id
         ).order_by(
             MsgRecord.time.desc()
         ).limit(1)
-    if msg_list:
-        msg = msg_list[0]
-        if msg.msg == chain:
-            pass    # 说明是在复读
-        else:
-            print('latest message: %s' % msg.msg, 'cur message : %s' % chain)
-            reply_list = ReplyRecord.select().where(
-                ReplyRecord.group_id==msg.group_id,
-                ReplyRecord.pre_msg==msg.msg,
-                ReplyRecord.reply_msg==chain
-            ).limit(1)
-            if reply_list:
-                reply = reply_list[0]
-                new_cout = reply.count+1
-                print('update count', new_cout)
-                ReplyRecord.update(count=new_cout).where(ReplyRecord.id==reply.id).execute()
-            else:
-                print('insert')
-                ReplyRecord.insert(
-                    group_id=msg.group_id,
-                    pre_msg=msg.msg,
-                    reply_msg=chain
-                ).execute()
+    update_reply_record(chain, msg_list, False)
+
+    # 这个人说的上一条
+    msg_list = MsgRecord.select().where(
+        MsgRecord.group_id==data.group_id,
+        MsgRecord.user_id==data.user_id
+        ).order_by(
+            MsgRecord.time.desc()
+        ).limit(1)
+    update_reply_record(chain, msg_list, True)  # 第三个参数True，自己复读自己，多半是想教兔兔
 
     MsgRecord.insert(
         group_id=data.group_id, 
@@ -63,3 +52,29 @@ def record(data: Message):
         time=time.time()
     ).execute()
     
+def update_reply_record(chain, msg_list: list, enable_repeat = False):
+    if msg_list:
+        msg = msg_list[0]
+        if msg.msg == chain:    # 说明是在复读
+            if enable_repeat:
+                pass
+            else:
+                return
+        print('latest message: %s' % msg.msg, 'cur message : %s' % chain)
+        reply_list = ReplyRecord.select().where(
+            ReplyRecord.group_id==msg.group_id,
+            ReplyRecord.pre_msg==msg.msg,
+            ReplyRecord.reply_msg==chain
+        ).limit(1)
+        if reply_list:
+            reply = reply_list[0]
+            new_cout = reply.count+1
+            print('update count', new_cout)
+            ReplyRecord.update(count=new_cout).where(ReplyRecord.id==reply.id).execute()
+        else:
+            print('insert')
+            ReplyRecord.insert(
+                group_id=msg.group_id,
+                pre_msg=msg.msg,
+                reply_msg=chain
+            ).execute()
