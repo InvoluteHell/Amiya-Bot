@@ -20,8 +20,6 @@ class ActiveReply:
         groups = GroupActive.select().where(GroupActive.active == 1)
 
         for group in groups:
-            min = random.randint(5, 10)
-            time.sleep(min * 60)
 
             group_id = group.group_id
             print('active reply', group_id)
