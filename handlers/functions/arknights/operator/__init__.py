@@ -206,7 +206,7 @@ class Operator(FuncInterface):
                 text = text.replace(item, '')
             res = data.cut_words(text_to_pinyin(text))
         else:
-            res = data.text_cut + data.text_cut_pinyin
+            res = data.text_cut
 
         res = list(filter(lambda x: x not in ['li', 'xi', 'a'], res))
 
