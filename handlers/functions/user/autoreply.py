@@ -50,9 +50,12 @@ def record(data: Message):
     if msg_list:
         msg = msg_list[0]
         if msg.user_id == data.user_id:
-            # 上一条不是这个人的
-            update_reply_record(chain, msg, False)
+            # 上一条也是这个人说的
+            # 第三个参数True，自己复读自己，多半是想教兔兔
+            update_reply_record(chain, msg, True)
         else:
+            # 上一条不是这个人说的
+            update_reply_record(chain, msg, False)
             # 这个人说的上一条
             self_msg_list = MsgRecord.select().where(
                 MsgRecord.group_id == data.group_id,
