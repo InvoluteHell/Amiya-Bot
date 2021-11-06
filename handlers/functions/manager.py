@@ -44,6 +44,6 @@ def manager_handler(data: Message):
                     dumps = json.dumps(quote_text)
                     ReplyRecord.update(
                         count=-5).where(ReplyRecord.reply_msg.contains(dumps)).execute()
-                return reply.text('阿米娅知道错了……')
+                    return reply.text('阿米娅知道错了……')
 
     return data.group_active.active == 1
