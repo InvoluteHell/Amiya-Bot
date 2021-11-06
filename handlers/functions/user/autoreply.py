@@ -51,8 +51,8 @@ def record(data: Message):
         msg = msg_list[0]
         if msg.user_id == data.user_id:
             # 上一条也是这个人说的
-            # 第三个参数True，自己复读自己，多半是想教兔兔
-            update_reply_record(chain, msg, True)
+            # 第三个参数True，自己复读自己，有可能是兔兔时间间隔拒掉了，这个人又发了一遍
+            update_reply_record(chain, msg, False)
         else:
             # 上一条不是这个人说的
             update_reply_record(chain, msg, False)
@@ -64,8 +64,8 @@ def record(data: Message):
                 MsgRecord.time.desc()
             ).limit(1)
             if self_msg_list:
-                # 第三个参数True，自己复读自己，多半是想教兔兔
-                update_reply_record(chain, self_msg_list[0], True)
+                # 第三个参数True，自己复读自己，有可能是兔兔时间间隔拒掉了，这个人又发了一遍
+                update_reply_record(chain, self_msg_list[0], False)
 
     MsgRecord.insert(
         group_id=data.group_id,
