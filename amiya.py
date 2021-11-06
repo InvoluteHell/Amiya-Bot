@@ -7,6 +7,7 @@ from handlers.functions.mole.bili.biliTask import biliTask
 from handlers.handleEvents import EventHandlers
 from handlers.handleMessage import Handlers
 from handlers.automaticEvents import AutomaticEvents
+from handlers.functions.user.activereply import ActiveReply
 
 
 class Main(AmiyaBot):
@@ -19,6 +20,7 @@ class Main(AmiyaBot):
         self.eventsHandlers = EventHandlers(self)
         self.handlers = Handlers(self)
         self.console = Console(self)
+        self.activereply = ActiveReply(self)
 
         self.bili = biliTask(self) # live room task
 
@@ -45,4 +47,5 @@ if __name__ == '__main__':
     amiya = Main()
     amiya.client_start()
     amiya.bili.start()
+    amiya.activereply.start()
     #amiya.console.start()

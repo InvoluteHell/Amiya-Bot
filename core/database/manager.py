@@ -27,7 +27,8 @@ class DataBase:
             Intellect,
             ReplaceText,
             MsgRecord,
-            ReplyRecord
+            ReplyRecord,
+            LatestAutoReply
         )
         for item in tables:
             item.create_table()

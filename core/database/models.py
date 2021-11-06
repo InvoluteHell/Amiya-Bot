@@ -158,6 +158,7 @@ class MsgRecord(BaseModel):
     group_id = IntegerField()
     user_id = IntegerField()
     msg = TextField()
+    msg_text = TextField(default='')
     time = BigIntegerField(default=0)
 
 class ReplyRecord(BaseModel):
@@ -166,3 +167,12 @@ class ReplyRecord(BaseModel):
     pre_msg = TextField()
     reply_msg = TextField()
     count = IntegerField(default=1)
+    pre_msg_text = TextField(default='')
+    reply_msg = TextField(default='')
+
+class LatestAutoReply(BaseModel):
+    group_id = IntegerField(primary_key=True)
+    msg = TextField(default='')
+    msg_text = TextField(default='')
+    time = BigIntegerField(default=0)
+    

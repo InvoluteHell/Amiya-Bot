@@ -7,7 +7,7 @@ from core.util import log
 from core.util.common import insert_zero, TimeRecorder
 from core.config import func_setting
 from core.util.imageCreator import temp_dir
-from core.database.models import User, Upload, Message, Intellect, GroupSetting
+from core.database.models import User, Upload, Message, Intellect, GroupSetting, MsgRecord, ReplyRecord
 
 from dataSource.sourceBank import SourceBank
 from handlers.functions.weibo import Weibo
@@ -118,6 +118,9 @@ def bot_maintain(bot: AmiyaBot, force=False):
         # 清空图片记录及一个月前的消息记录
         last_time = int(time.time()) - 31 * 86400
         Message.delete().where(Message.msg_time <= last_time).execute()
+        MsgRecord.delete().where(MsgRecord.time <= last_time).execute()
+        ReplyRecord.update(count=ReplyRecord.count-1).execute()
+        ReplyRecord.delete().where(ReplyRecord.count < 2).execute()
         Upload.truncate_table()
 
         # 清除缓存
