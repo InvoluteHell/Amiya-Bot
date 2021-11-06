@@ -1,5 +1,5 @@
 from core import Message, Chain
-from core.database.models import MsgRecord, ReplyRecord
+from core.database.models import MsgRecord, ReplyRecord, LatestAutoReply
 from handlers.constraint import FuncInterface
 from core import AmiyaBot
 import time
@@ -13,6 +13,14 @@ reply_count_threshold = 2
 def autoreply(data: Message, bot: AmiyaBot):
     chain = json.dumps(data.raw_chain)
 
+    latest_reply = LatestAutoReply.select().where(LatestAutoReply.group_id== data.group_id).execute()
+
+    if latest_reply:
+        time_interval: int = time.time() - latest_reply[0].time
+        rand_sec = random.randint(0, 30)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
+        if rand_sec > time_interval:
+            return
+
     reply_list = ReplyRecord.select().where(
         ReplyRecord.group_id == data.group_id,
         ReplyRecord.pre_msg == chain,
@@ -21,9 +29,14 @@ def autoreply(data: Message, bot: AmiyaBot):
 
     if reply_list:
         rand_index = random.randint(0, len(reply_list) - 1)
-        reply_rec = reply_list[rand_index]
+        msg = reply_list[rand_index].reply_msg
+        LatestAutoReply.insert(
+            group_id=data.group_id,
+            msg=msg,
+            time=time.time()
+        ).on_conflict('replace').execute()
         with bot.send_custom_message(group_id=data.group_id) as reply:
-            reply.chain = json.loads(reply_rec.reply_msg)
+            reply.chain = json.loads(msg)
 
 
 def record(data: Message):

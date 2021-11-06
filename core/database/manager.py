@@ -27,7 +27,7 @@ class DataBase:
             ReplaceText,
             MsgRecord,
             ReplyRecord,
-            AutoReplyTime
+            LatestAutoReply
         )
         for item in tables:
             item.create_table()

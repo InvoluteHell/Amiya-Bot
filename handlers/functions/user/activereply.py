@@ -6,7 +6,7 @@ import datetime
 
 from core import AmiyaBot
 from core.resolver.messageChain import Chain
-from core.database.models import ReplyRecord, GroupActive, AutoReplyTime, MsgRecord
+from core.database.models import ReplyRecord, GroupActive, LatestAutoReply, MsgRecord
 
 
 class ActiveReply:
@@ -26,11 +26,11 @@ class ActiveReply:
             group_id = group.group_id
             print('active reply', group_id)
 
-            auto_reply_time_list = AutoReplyTime.select().where(
-                AutoReplyTime.group_id == group_id).limit(1)
+            auto_reply_time_list = LatestAutoReply.select().where(
+                LatestAutoReply.group_id == group_id).limit(1)
 
             if not auto_reply_time_list:
-                AutoReplyTime.insert(group_id=group_id).execute()
+                LatestAutoReply.insert(group_id=group_id).execute()
                 continue
             
             auto_reply_time = auto_reply_time_list[0].time
@@ -65,8 +65,8 @@ class ActiveReply:
                 if not reply_list:
                     continue
 
-                AutoReplyTime.update(time=time.time()).where(
-                    AutoReplyTime.group_id == group_id).execute()
+                LatestAutoReply.update(time=time.time()).where(
+                    LatestAutoReply.group_id == group_id).execute()
 
                 reply_rec = reply_list[random.randint(
                     0, len(reply_list) - 1)]
