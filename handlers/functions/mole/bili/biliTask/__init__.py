@@ -24,7 +24,7 @@ class biliTask:
             for group in groups:
                 with self.bot.send_custom_message(group_id=group) as reply:
                     reply: Chain
-                    reply.text('开播啦！').image(pic(user.room.cover)).text(user.room.url)
+                    reply.text('开播啦！').text(user.room.title).image(pic(user.room.cover)).text(user.room.url)
         self.last=now
         time.sleep(8)
 
