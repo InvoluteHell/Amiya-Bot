@@ -35,15 +35,17 @@ def manager_handler(data: Message):
                 return reply.text('阿米娅没有偷懒哦博士，请您也不要偷懒~')
 
         if word_in_sentence(message, ['不可以涩涩', '不准涩涩']):
-            if data.group_active.hso == 1:
+            if data.group_active.active == 1 and data.group_active.hso == 1:
                 GroupActive.update(hso=0).where(
                     GroupActive.group_id == data.group_id).execute()
                 return reply.text('涩涩下班啦！博士需要涩涩的时候再让阿米娅工作吧。^_^')
+                
         elif word_in_sentence(message, ['可以涩涩']):
-            if data.group_active.hso == 0:
+            if data.group_active.active == 1 and data.group_active.hso == 0:
                 GroupActive.update(hso=1).where(
                     GroupActive.group_id == data.group_id).execute()
                 return reply.text('涩涩上班啦！充足的休息才能更好的工作，博士，不要忘记休息哦 ^_^')
+
         if word_in_sentence(message, ['不可以', '不准', '不能']):
             if data.raw_chain[0]['type'] == 'Quote':
                 quote_text = data.raw_chain[0]['origin'][0]['text']
