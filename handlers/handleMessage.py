@@ -40,7 +40,8 @@ class Handlers(FunctionIndexes):
         if ret:
             return ret
         
-        return autoreply(data, self.bot) or record(data)
+        autoreply(data, self.bot)
+        record(data)
 
     @waiting_event
     def reply_private_message(self, data: Message):

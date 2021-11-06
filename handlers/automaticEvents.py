@@ -118,7 +118,8 @@ def bot_maintain(bot: AmiyaBot, force=False):
         last_time = int(time.time()) - 31 * 86400
         Message.delete().where(Message.msg_time <= last_time).execute()
         MsgRecord.delete().where(MsgRecord.time <= last_time).execute()
-        ReplyRecord.delete().where(ReplyRecord.count <= 2).execute()
+        ReplyRecord.update(count=ReplyRecord.count-1).execute()
+        ReplyRecord.delete().where(ReplyRecord.count < 2).execute()
         Upload.truncate_table()
 
         # 清除缓存

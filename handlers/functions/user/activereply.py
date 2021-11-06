@@ -20,7 +20,7 @@ class ActiveReply:
         groups = GroupActive.select().where(GroupActive.active == 1)
 
         for group in groups:
-            min = random.randint(10, 20)
+            min = random.randint(5, 10)
             time.sleep(min * 60)
 
             group_id = group.group_id
@@ -54,7 +54,7 @@ class ActiveReply:
                 continue
             
             time_interval: int = (time.time() - msg_time) / 60  # 上一次有人说话到现在的时间间隔，单位分钟
-            rand_hour = random.randint(0, 180)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
+            rand_hour = random.randint(0, 60)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
 
             if rand_hour < time_interval:
                 print('ready to active reply')
@@ -77,7 +77,7 @@ class ActiveReply:
     def run(self):
         while True:
             hour = datetime.datetime.now().hour
-            if hour > 1 and hour < 10:
+            if hour > 1 and hour < 9:
                 time.sleep(3600)
             self.time()
             min = random.randint(30, 60)
