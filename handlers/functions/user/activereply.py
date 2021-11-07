@@ -70,6 +70,13 @@ class ActiveReply:
                     0, len(reply_list) - 1)]
                 with self.bot.send_custom_message(group_id=group_id) as reply:
                     reply.chain = json.loads(reply_rec.pre_msg)
+                
+                # 有一定概率连发两句=。=
+                if random.randint(0, 10) < 5:
+                    time.sleep(1)
+                    with self.bot.send_custom_message(group_id=group_id) as reply:
+                        reply.chain = json.loads(reply_rec.reply_msg)
+                
 
 
     def run(self):
@@ -77,6 +84,6 @@ class ActiveReply:
             hour = datetime.datetime.now().hour
             if hour > 1 and hour < 9:
                 time.sleep(7200)
-            self.time()
             min = random.randint(40, 60)
             time.sleep(min * 60)
+            self.time()
