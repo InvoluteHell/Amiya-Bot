@@ -4,6 +4,7 @@ import json
 from core import Message, Chain
 from core.database.models import GroupActive, ReplyRecord
 from core.util.common import word_in_sentence, calc_time_total
+from handlers.functions.user.autoreply import record
 
 
 def manager_handler(data: Message):
@@ -58,4 +59,8 @@ def manager_handler(data: Message):
                         count=-5).where(ReplyRecord.reply_msg.contains(dumps)).execute()
                     return reply.text('阿米娅知道错了……')
 
-    return data.group_active.active == 1
+    if data.group_active.active == 1:
+        return True
+    else:
+        record(data)    # 下班了也要学习！
+        return False
