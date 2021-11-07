@@ -84,11 +84,12 @@ def update_reply_record(chain, msg: MsgRecord, enable_repeat=False):
         else:
             return
     print('latest message: %s' % msg.msg, 'cur message : %s' % chain)
-    # 如果有反过来的，直接退出，说明可能是两句话在轮流复读。只取正向的
+    # 如果有反过来的，直接退出，说明可能是两句话在轮流复读。只取正向的（先达到阈值的）
     reverse_list = ReplyRecord.select().where(
         ReplyRecord.group_id == msg.group_id,
         ReplyRecord.pre_msg == chain,
-        ReplyRecord.reply_msg == msg.msg
+        ReplyRecord.reply_msg == msg.msg,
+        ReplyRecord.count >= reply_count_threshold
     ).limit(1)
     if reverse_list:
         return
