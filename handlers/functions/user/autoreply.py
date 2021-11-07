@@ -17,7 +17,7 @@ def autoreply(data: Message, bot: AmiyaBot):
 
     if latest_reply:
         time_interval: int = time.time() - latest_reply[0].time
-        rand_sec = random.randint(0, 30)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
+        rand_sec = random.randint(5, 10)   # 时间间隔越大，触发主动对话概率越高
         if rand_sec > time_interval:
             return
 

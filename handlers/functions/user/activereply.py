@@ -52,7 +52,7 @@ class ActiveReply:
                 continue
             
             time_interval: int = (time.time() - msg_time) / 60  # 上一次有人说话到现在的时间间隔，单位分钟
-            rand_hour = random.randint(0, 60)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
+            rand_hour = random.randint(30, 180)   # 时间间隔越大，触发主动对话概率越高，180分钟以上就必触发
 
             if rand_hour < time_interval:
                 print('ready to active reply')
@@ -76,7 +76,7 @@ class ActiveReply:
         while True:
             hour = datetime.datetime.now().hour
             if hour > 1 and hour < 9:
-                time.sleep(3600)
+                time.sleep(7200)
             self.time()
-            min = random.randint(30, 60)
+            min = random.randint(40, 60)
             time.sleep(min * 60)
