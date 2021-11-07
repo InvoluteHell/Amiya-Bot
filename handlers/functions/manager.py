@@ -48,7 +48,7 @@ def manager_handler(data: Message):
 
         if word_in_sentence(message, ['不可以', '不准', '不能']):
             if data.raw_chain[0]['type'] == 'Quote':
-                quote_text = data.raw_chain[0]['origin'][0]['text']
+                quote_text = data.raw_chain[0]['origin'][0]
                 # 图片在引用里只有这俩字，似乎是使用id字段定位的，暂时不知道怎么处理
                 if word_in_sentence(quote_text, ['[图片]', '[动画表情]']):
                     pass
