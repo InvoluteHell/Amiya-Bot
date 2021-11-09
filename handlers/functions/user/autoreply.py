@@ -64,8 +64,9 @@ def record(data: Message):
                 MsgRecord.time.desc()
             ).limit(1)
             if self_msg_list:
-                # 第三个参数True，自己复读自己，有可能是兔兔时间间隔拒掉了，这个人又发了一遍
-                update_reply_record(chain, self_msg_list[0], False)
+                self_msg = self_msg_list[0]
+                if msg.msg != self_msg.msg:
+                    update_reply_record(chain, self_msg_list[0], False)
 
     MsgRecord.insert(
         group_id=data.group_id,
