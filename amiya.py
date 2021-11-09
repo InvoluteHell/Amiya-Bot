@@ -2,7 +2,7 @@ from core import AmiyaBot, Message
 from core.util import log
 from core.util.common import TimeRecorder
 
-from console.server.app import Console
+#from console.server.app import Console
 from handlers.functions.mole.bili.biliTask import biliTask
 from handlers.handleEvents import EventHandlers
 from handlers.handleMessage import Handlers
@@ -19,7 +19,7 @@ class Main(AmiyaBot):
         self.automaticEvents = AutomaticEvents(self)
         self.eventsHandlers = EventHandlers(self)
         self.handlers = Handlers(self)
-        self.console = Console(self)
+        #self.console = Console(self)
         self.activereply = ActiveReply(self)
 
         self.bili = biliTask(self) # live room task
