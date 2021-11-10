@@ -59,6 +59,7 @@ class ActiveReply:
 
                 reply_list = ReplyRecord.select().where(
                     ReplyRecord.group_id == group_id,
+                    ReplyRecord.count >= 2
                 ).order_by(ReplyRecord.count.desc()).limit(20)
                 if not reply_list:
                     continue
