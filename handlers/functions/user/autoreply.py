@@ -5,9 +5,9 @@ from core import AmiyaBot
 import time
 import random
 import json
+import threading
 
 reply_count_threshold = 2
-
 
 @FuncInterface.is_disable_func(function_id='autoreply')
 def autoreply(data: Message, bot: AmiyaBot):
@@ -30,14 +30,18 @@ def autoreply(data: Message, bot: AmiyaBot):
     if reply_list:
         rand_index = random.randint(0, len(reply_list) - 1)
         msg = reply_list[rand_index].reply_msg
+        delay = random.randint(10, 30)
         LatestAutoReply.insert(
             group_id=data.group_id,
-            msg=msg,
-            time=time.time()
+            msg=chain,
+            time=time.time() + delay
         ).on_conflict('replace').execute()
-        with bot.send_custom_message(group_id=data.group_id) as reply:
-            reply.chain = json.loads(msg)
+        timer = threading.Timer(delay, reply_func, (data.group_id, msg, bot,))
+        timer.start()
 
+def reply_func(group_id, msg, bot: AmiyaBot):
+    with bot.send_custom_message(group_id=group_id) as rep:
+        rep.chain = json.loads(msg)
 
 def record(data: Message):
     chain = json.dumps(data.raw_chain)
