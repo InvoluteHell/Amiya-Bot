@@ -50,7 +50,7 @@ def autoreply(data: Message, bot: AmiyaBot):
     ).limit(3)
     if msg_list and len(msg_list) >= 2:
         self_list = LatestAutoReply.select().where(
-            group_id=data.group_id,
+            LatestAutoReply.group_id==data.group_id,
         ).order_by(
             LatestAutoReply.time.desc()
         ).limit(1)
