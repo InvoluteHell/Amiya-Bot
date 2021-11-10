@@ -9,11 +9,13 @@ import threading
 
 reply_count_threshold = 2
 
+
 @FuncInterface.is_disable_func(function_id='autoreply')
 def autoreply(data: Message, bot: AmiyaBot):
     chain = json.dumps(data.raw_chain)
 
-    latest_reply = LatestAutoReply.select().where(LatestAutoReply.group_id== data.group_id).execute()
+    latest_reply = LatestAutoReply.select().where(
+        LatestAutoReply.group_id == data.group_id).execute()
 
     if latest_reply:
         time_interval: int = time.time() - latest_reply[0].time
@@ -38,10 +40,38 @@ def autoreply(data: Message, bot: AmiyaBot):
         ).on_conflict('replace').execute()
         timer = threading.Timer(delay, reply_func, (data.group_id, msg, bot,))
         timer.start()
+        return
+
+    # 处理复读的情况
+    msg_list = MsgRecord.select().where(
+        MsgRecord.group_id == data.group_id
+    ).order_by(
+        MsgRecord.time.desc()
+    ).limit(3)
+    if msg_list and len(msg_list) >= 2:
+        self_list = LatestAutoReply.select().where(
+            group_id=data.group_id,
+        ).order_by(
+            LatestAutoReply.time.desc()
+        ).limit(1)
+        if (not self_list) or self_list[0].msg != chain:
+            if msg_list[0].msg == chain \
+                    and msg_list[1].msg == chain:
+                delay = random.randint(5, 10)
+                LatestAutoReply.insert(
+                    group_id=data.group_id,
+                    msg=chain,
+                    time=time.time() + delay
+                ).on_conflict('replace').execute()
+                timer = threading.Timer(
+                    delay, reply_func, (data.group_id, chain, bot,))
+                timer.start()
+
 
 def reply_func(group_id, msg, bot: AmiyaBot):
     with bot.send_custom_message(group_id=group_id) as rep:
         rep.chain = json.loads(msg)
+
 
 def record(data: Message):
     chain = json.dumps(data.raw_chain)
