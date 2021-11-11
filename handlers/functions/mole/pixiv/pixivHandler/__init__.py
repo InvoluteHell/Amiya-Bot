@@ -47,6 +47,7 @@ class PixivHandler(FuncInterface):
         if group and group.hso == 1:
             p = self.keeper.random()
             path = pic(url(p))
-            return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
-        else:
-            return reply.image("images/banhso.gif")
+            if path:
+                return reply.text('https://www.pixiv.net/artworks/{}'.format(p['id'])).image(path)
+
+        return reply.image("images/banhso.gif")

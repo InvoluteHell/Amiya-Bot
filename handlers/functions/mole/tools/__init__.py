@@ -20,4 +20,4 @@ def pic(url):
         stream = requests.get(url, stream=True)
         if stream.status_code == 200:
             open(path, 'wb').write(stream.content)
-    return path
+            return path
