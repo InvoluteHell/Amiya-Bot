@@ -10,6 +10,7 @@ from .menu.menu import Menu
 from .weibo import Weibo
 from .replace import Replace
 from .arknights import Arknights
+from .driftBottle import DriftBottle
 
 from .nlp import natural_language_processing
 from .touch import random_reply
@@ -30,6 +31,7 @@ class FunctionIndexes:
             Replace(bot),
             UserInfo(),
             IntellectAlarm(),
+            DriftBottle()
         ]
         self.actions = [
             emotion,
