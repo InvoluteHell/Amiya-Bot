@@ -104,7 +104,12 @@ class Message:
 
     def __trans_text(self, text='', message_chain=None):
         if message_chain:
-            self.raw_chain = message_chain[1:]
+            raw_chain = message_chain[1:]
+            for chain in raw_chain:
+                if chain['type'] == 'Image':
+                    del chain['url']
+            self.raw_chain = raw_chain
+            
             for chain in message_chain:
                 if chain['type'] == 'Source':
                     self.message_id = chain['id']
@@ -123,6 +128,7 @@ class Message:
 
                 if chain['type'] == 'Image':
                     self.image = chain['url'].strip()
+
 
         self.text_origin = text = self.__check_call(text)
 
