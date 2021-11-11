@@ -21,3 +21,6 @@ def pic(url):
         if stream.status_code == 200:
             open(path, 'wb').write(stream.content)
             return path
+        else:
+            return
+    return path
