@@ -36,8 +36,8 @@ class DriftBottle(FuncInterface):
         for item in get_keywords:
             if item in data.text:
                 bottle_list = DriftBottleBase.select().where(
-                    DriftBottleBase.is_picked is False,
-                    DriftBottleBase.is_banned is False).order_by(fn.Random()).limit(1)
+                    DriftBottleBase.is_picked == False,
+                    DriftBottleBase.is_banned == False).order_by(fn.Random()).limit(1)
                 if not bottle_list:
                     return reply.text('阿米娅搜寻了半天，也没有找到更多的漂流瓶……')
 
